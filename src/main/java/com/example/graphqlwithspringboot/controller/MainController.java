@@ -12,6 +12,6 @@ public class MainController {
 
     @QueryMapping
     public Book bookById(@Argument String id){
-
+        return null;
     }
 }

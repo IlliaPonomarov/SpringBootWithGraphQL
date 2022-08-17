@@ -1,34 +1,37 @@
 package com.example.graphqlwithspringboot.model;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import java.util.List;
+
+import javax.persistence.*;
 import java.util.*;
 
+@Entity
+@Table(name = "Book")
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 public class Book {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "pagecount")
     private int pageCount;
-    private String authorId;
 
-    public Book(String id, String name, int pageCount, String authorId) {
-        this.id = id;
-        this.name = name;
-        this.pageCount = pageCount;
-        this.authorId = authorId;
-    }
 
-    private static List<Book> books = Arrays.asList(
-            new Book("book-1", "Harry Potter and the Philosopher's Stone", 223, "author-1"),
-            new Book("book-2", "Moby Dick", 635, "author-2"),
-            new Book("book-3", "Interview with the vampire", 371, "author-3")
-    );
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private Author author;
 
-    public static Book getById(String id) {
-        return books.stream().filter(book -> book.getId().equals(id)).findFirst().orElse(null);
-    }
 
-    public String getId() {
-        return id;
-    }
 
-    public String getAuthorId() {
-        return authorId;
-    }
+
 }
