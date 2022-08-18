@@ -4,6 +4,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @Entity
@@ -15,15 +17,21 @@ public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Integer id;
+
+    @NotNull
+    @NotBlank
     private String firstName;
+
+    @NotNull
+    @NotBlank
     private String lastName;
 
     @OneToMany(mappedBy = "author")
+    @NotNull
     private List<Book> books;
 
-    public Author(String id, String firstName, String lastName) {
-        this.id = id;
+    public Author(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
