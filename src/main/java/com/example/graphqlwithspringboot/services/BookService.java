@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.Option;
 import java.util.*;
 @Service
 @Transactional(readOnly = true)
@@ -22,7 +21,7 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Optional<Book> getBookById(int id){
+    public Optional<Book> findById(int id){
         return bookRepository.findById(id);
     }
 
@@ -32,7 +31,8 @@ public class BookService {
     }
 
 
+    public Book update(Book updateBook) {
 
-
-
+        return bookRepository.save(updateBook);
+    }
 }

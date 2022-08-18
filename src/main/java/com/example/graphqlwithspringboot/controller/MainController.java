@@ -4,16 +4,13 @@ import com.example.graphqlwithspringboot.model.Author;
 import com.example.graphqlwithspringboot.model.Book;
 import com.example.graphqlwithspringboot.services.AuthorService;
 import com.example.graphqlwithspringboot.services.BookService;
+import com.example.graphqlwithspringboot.util.exceptions.BookNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
-import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +29,7 @@ public class MainController {
     }
     @QueryMapping
     public Optional<Book> bookById(@Argument int id){
-        return bookService.getBookById(id);
+        return bookService.findById(id);
     }
 
 
@@ -42,6 +39,15 @@ public class MainController {
     }
 
 
+    public Book updateNameOfBook(@Argument int id, @Argument String name){
+
+        Optional<Book> updateBook = bookService.findById(id);
+
+        if(!updateBook.isPresent())
+            throw new BookNotExistException("Book with id: " + id + " does not exist!", "InteraField");
+
+        return bookService.update(updateBook.get());
+    }
     @MutationMapping
     public Book addBook(@Argument String name, @Argument  Integer pageCount, @Argument Integer authorId){
 

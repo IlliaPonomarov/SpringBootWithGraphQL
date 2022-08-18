@@ -4,6 +4,7 @@ type Query {
 }
 type Mutation {
     addBook(name: String, pageCount: Int, authorId: Int ) : Book
+    updateBook(bookId: Int, bookName: String) : Book
 }
 
 # inputs
